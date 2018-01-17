@@ -6,4 +6,5 @@
 * [React Fiber](react-fiber.md)
 * [RxJS](rxjs.md)
 * [PWA](pwa.md)
+* [Webassembly](webassembly.md)
 
