@@ -1,6 +1,5 @@
-# React 应用实践
-
-### A Simple Component
+### React基础
+#### A Simple Component
 
 ```js
 class HelloWorld extends Component {
@@ -12,7 +11,7 @@ class HelloWorld extends Component {
 render(<HelloWorld />, document.getElementById('app'))
 ```
 
-### JSX
+#### JSX
 
 约定使用首字母大小写来区分本地组件和HTML标签
 
@@ -31,7 +30,7 @@ var root = React.createElement('ul', { className: 'my-list' }, child);
 React.render(root, document.body);
 ```
 
-JS表达式
+#### JS表达式
 
 ```js
 //属性比阿达式
@@ -60,7 +59,7 @@ class Sample extends React.Component {
 }
 ```
 
-属性扩散
+#### 属性扩散
 spread operator(...)
 ```js
 var props = {}
@@ -69,7 +68,7 @@ props.b = y
 var component = <Component {...props} />
 ```
 
-HTML实体处理
+#### HTML实体处理
 ```js
 //Unicode字符
 <div>{'First · Second'}</div>
@@ -82,14 +81,14 @@ HTML实体处理
 <div dangerouslySetInnerHTML={{__html: 'First &middot; Second'}} />
 ```
 
-自定义HTML属性
+#### 自定义HTML属性
 如果往原生 HTML 元素里传入 HTML 规范里不存在的属性，React 不会显示它们，data、aria（视听无障碍）前缀除外
 特殊情况：自定义元素支持任意属性
 ```js
 <x-my-component custom-attribute="foo" />
 ```
 
-JSX与HTML差异
+#### JSX与HTML差异
 class -> className, for -> htmlFor, style由css属性构成的JS对象
 ```js
 ...
@@ -111,7 +110,7 @@ React合成事件最终是通过委托到document这个DOM节点进行实现，�
 React合成事件有自己的队列方式，可以从触发事件的组建向父组件回溯，可以通过e.stopPropagation来停止合成事件的传播，但无法阻止原生事件，原生事件可以阻止合成事件
 React会管理合成事件的对象创建和销毁
 
-DOM操作
+#### DOM操作
 findDOMNode()
 ```js
 import { findDOMNode } from 'react-dom'
@@ -135,7 +134,7 @@ render() {
 ...
 ```
 
-组合组件
+#### 组合组件
 ```js
 const ProfilePic = (props) => {
     return (
@@ -172,7 +171,7 @@ React.render(<Parent><Avatar username="clark" /></Parent>, document.body)
 >props.children
 >通常是一个组件对象的数组，当只有一个子元素的时候prop.children将是这个唯一子元素
 
-组件生命周期
+##### 组件生命周期
 
 实例化
 
@@ -194,10 +193,10 @@ React.render(<Parent><Avatar username="clark" /></Parent>, document.body)
 
  - componentWillUnmount 如在componentDidMount中添加相应的方法与监听，需在此时销毁
 
- Mixins
+ #### Mixins
 
 ES6写法中已经不支持，因为使用mixin场景可以用组合组件方式实现
-高阶组件
+#### 高阶组件
 ```js
 export const ShouldUpdate = (ComposedComponent) => class extends React.Component{
     constructor(props) {
@@ -256,7 +255,7 @@ function iiHOC(WrappedComponent) {
 ```
 注：反向继承可以做到渲染劫持，通常不建议操作state特别是新增
 
-虚拟DOM Diff
+#### 虚拟DOM Diff
 这里有两个假设用来降低Diff算法的复杂度O(n^3) -> O(n)
 1.两个相同的组件产生类似的DOM结构，不同组件产生不同的DOM结构
 2.对于同一层次的组件子节点，它们可以通过唯一的id进行区分
@@ -374,11 +373,10 @@ window.renderTest = function(testType){
 ```
 
 避免使用state
-
  - componentDidMount、componentDidUpdate、render
  - computed data, react components, duplicated data from props
 
-React与AJAX
+#### React与AJAX
 
 componentDidMount中发起ajax请求，拿到数据后通过setState方法更新UI
 如果异步请求请注意在componentWillUnmount中的abort请求
@@ -420,7 +418,7 @@ Children.contextTypes = {
 }
 ```
 
-组件化开发的思考
+#### 组件化开发的思考
 
 - 组件尽可能无状态化（stateless）
 - 细粒度的把握，提高复用性
@@ -434,7 +432,7 @@ unstable_renderSubtreeIntoContainer
 - State只能通过触发Action来更改
 - State每次更改总是返回一个新的State，即Reducer
 
-Actions
+#### Actions
 
 一个包含{type, payload}的对象,
 type是一个常量标示的动作类型,
@@ -453,7 +451,7 @@ function addItem(id, name) {
     }
 }
 ```
-Reducer
+#### Reducer
 
 Reducer用来处理Action触发的对状态树的更改
 (oldState, action) => newState
@@ -484,7 +482,7 @@ var rootReducer = combineReducers({
     selectItem
 })
 ```
-Store
+#### Store
 
 - 提供State状态树
 - getState()方法获取State
@@ -496,8 +494,7 @@ Store
 import { createStore } from 'redux'
 let store = createStore(rootReducer)
 ```
-数据流
-
+#### 数据流
 store.dispatch(action) -> reducer(state, action) -> store.getState()
 
 - 1.调用store.dispatch(action)
@@ -518,21 +515,21 @@ store.dispatch(action) -> reducer(state, action) -> store.getState()
 Connect本身是一个组件，通过监听Provider提供的store变化来调用this.setState操作，这里特别需要注意传入的mapStateToProps必需只是你需要的数据，不然作为全局公用的store每次都进行对比显然不高效也不合理
 通过connect()方法包装好的组件可以得到dispath方法作为组件的props，以及全局state中所需的内容
 
-四个要点
+#### 四个要点
 
 - Redux提供唯一store
 - Provider组件包含住最顶层组件，将store作为props传入
 - connect方法将store中数据以及actions通过props传递到业务子组件
 - 子组件调用action，dispatch到reducer返回新的state，store同步更新，并通知组件进行更新
 
-展示组件
+#### 展示组件
 
 - 关注UI
 - 不依赖action来更新组件
 - 通过props接收数据和回调函数改变数据
 - 无状态组件，一般情况下没有state
 
-容器组件
+#### 容器组件
 
 - 关注运作方式
 - 调用action
@@ -541,7 +538,7 @@ Connect本身是一个组件，通过监听Provider提供的store变化来调用
 
 UI与逻辑的分离，利于复用，易于重构
 
-redux中间件
+#### redux中间件
 ```js
 //redux中间件格式
 ({dispatch, store}) => (next) => (action) => {}
@@ -574,7 +571,9 @@ store.dispatch({
 let new_dispatch = (...args) = >  logger1(logger2(dispatch(...args)))
 ```
 
-immutableJS (替代方案 seamless-immutable）
+#### immutableJS
+替代方案 seamless-immutable
+
 immutable对象的任何修改或者添加删除都会返回一个新的immutable对象
 其实现原理是持久化数据结构（Persistent Data Structure），即旧数据创建新数据时，保证旧数据可用且不变，避免deepcopy把所有节点都复制一遍
 
@@ -587,7 +586,7 @@ Immutable.is(map1, map2);  // true
 ```
 Immutable.is通过hashCode/valueOf提升比较性能，在react中使用shouldComponentUpdate来进行性能优化的时候能避免deepCopy和deepCompare造成的性能损耗
 
-normalizr
+### normalizr
 尽可能把state范式化，不存在嵌套
 ```js
 [{
