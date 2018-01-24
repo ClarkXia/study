@@ -387,6 +387,7 @@ componentDidMount中发起ajax请求，拿到数据后通过setState方法更新
 
 - 父子组件 React数据流是单向的，父组件数据可以通过设置子组件props进行传递，如果想让子组件改变父组件数据，父组件传递一个回调函数给子组件即可（函数传递注意事项this.fn.bind(this)和箭头函数均会返回新的函数）
 - 兄弟组件 将数据挂在在父组件中，由多个子组件共享数据，组件层次太深的问题 -> 全局事件/Context(getChildContext&childContextTypes)
+
 ```js
 class Parent extends React.Component {
     getChildContext() {
