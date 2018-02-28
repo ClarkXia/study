@@ -124,6 +124,7 @@ function replaceReducer(nextReducer) {
 并不是供开发的时候使用的，感兴趣的可以去源码test目录下查看用法
 
 ####combineReducers
+```js
 export default function combineReducers(reducers) {
   const reducerKeys = Object.keys(reducers)
   const finalReducers = {}
@@ -150,3 +151,4 @@ export default function combineReducers(reducers) {
     return hasChanged ? nextState : state
   }
 }
+```
