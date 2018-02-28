@@ -139,6 +139,7 @@ export default function combineReducers(reducers) {
   return function combination(state = {}, action) {
     let hasChanged = false
     const nextState = {}
+    //遍历所有的reducer，将每个reducer的返回再组合成新的state树
     for (let i = 0; i < finalReducerKeys.length; i++) {
       const key = finalReducerKeys[i]
       const reducer = finalReducers[key]
@@ -152,3 +153,22 @@ export default function combineReducers(reducers) {
   }
 }
 ```
+combineReducers实现很简单，可以避免我们在大型应用里面写一个超级到的switch...case，如果你设计的state树层次比较深，可以嵌套combineReducers最终合成一个reducer
+
+####compose
+```js
+export default function compose(...funcs) {
+  if (funcs.length === 0) {
+    return arg => arg
+  }
+
+  if (funcs.length === 1) {
+    return funcs[0]
+  }
+
+  return funcs.reduce((a, b) => (...args) => a(b(...args)))
+}
+```
+如果清楚reduce的原理 这段代码理解起来应该并不困难，compose([a, b, c])(...args)相当于a(b(c(...args)))
+
+####
