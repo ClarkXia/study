@@ -172,6 +172,11 @@ export default function compose(...funcs) {
 如果清楚reduce的原理 这段代码理解起来应该并不困难，compose([a, b, c])(...args)相当于a(b(c(...args)))
 
 ####applyMiddleware
+直接看applyMiddleware可能并不清楚这个是什么用，我们先来看下redux中间件的格式
+```js
+({dispatch, getState}) => (next) => (action) => {}
+```
+再结合applyMiddleware的实现
 ```js
 export default function applyMiddleware(...middlewares) {
   return createStore => (...args) => {
@@ -185,7 +190,9 @@ export default function applyMiddleware(...middlewares) {
       getState: store.getState,
       dispatch: (...args) => dispatch(...args)
     }
+    //循环调用中间件注入state和dispatch，每个中间价返回 (next)=> (action) => {}
     chain = middlewares.map(middleware => middleware(middlewareAPI))
+    //通过compose组合成dispatch
     dispatch = compose(...chain)(store.dispatch)
 
     return {
@@ -195,3 +202,30 @@ export default function applyMiddleware(...middlewares) {
   }
 }
 ```
+好了 到这里如果还清楚发生了什么，我们就通过具体的例子来说明， 先写两个简单的中间件
+```js
+let m1 = ({dispatch, getState}) => (next) => (action) => {
+  console.log('m1');
+  //next(action)
+}
+let m2 = ({dispatch, getState}) => (next) => (action) => {
+  console.log('m2');
+  //next(action)
+}
+let store = createStore(reducer,applyMiddleware(m1,m2))
+store.dispatch({type: "type"})
+```
+如果不执行next(action), 这个结果输出应该只有m1，结合compose代码，m2相当于m1的next参数，最终通过applyMiddleware得到的函数执行实际效果如下
+```js
+function m() {
+  console.log('m1');
+  //next(action)等价于执行m2
+  console.log('m2');
+  //next(action)等价于执行最终的dispatch
+}
+```
+中间价也正式Redux生态活跃的关键因素，你可以通过中间价加各种黑魔法
+
+###END
+redux还包括bindActionCreator，实现一个简单的actionCreator和dispatch联结，这里不再赘述
+redux非常优秀，希望大家能从redux设计中获得一些心得体会
