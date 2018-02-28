@@ -39,5 +39,19 @@ HTTP是基于TCP/IP的关于数据如何在www总通信的协议、
 GET和POST本质上就是TCP链接，并无差别。但是由于HTTP的规定和浏览器/服务器的限制，导致他们在应用过程中体现出一些不同
 GET产生一个TCP数据包；POST产生两个TCP数据包。
 
+#### macrotask和microtask
+* 一个事件循环(event loop)会有一个或多个任务队列(task queue) 
+task queue 就是 macrotask queue
+* 每一个 event loop 都有一个 microtask queue
+* task queue == macrotask queue != microtask queue
+* 一个任务 task 可以放入 macrotask queue 也可以放入 microtask queue 中
+* 当一个 task 被放入队列 queue(macro或micro) 那这个 task 就可以被立即执行了
 
+event-loop 执行模型
+在 macrotask 队列中执行最早的那个 task ，然后移出
+执行 microtask 队列中所有可用的任务，然后移出
+下一个循环，执行下一个 macrotask 中的任务 (再跳到第2步)
+
+macrotasks: setTimeout ，setInterval， setImmediate，requestAnimationFrame,I/O ，UI渲染
+microtasks: Promise， process.nextTick， Object.observe， MutationObserver
 
