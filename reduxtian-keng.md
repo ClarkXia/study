@@ -171,4 +171,27 @@ export default function compose(...funcs) {
 ```
 如果清楚reduce的原理 这段代码理解起来应该并不困难，compose([a, b, c])(...args)相当于a(b(c(...args)))
 
-####
+####applyMiddleware
+```js
+export default function applyMiddleware(...middlewares) {
+  return createStore => (...args) => {
+    const store = createStore(...args)
+    let dispatch = () => {
+      //throw error
+    }
+    let chain = []
+
+    const middlewareAPI = {
+      getState: store.getState,
+      dispatch: (...args) => dispatch(...args)
+    }
+    chain = middlewares.map(middleware => middleware(middlewareAPI))
+    dispatch = compose(...chain)(store.dispatch)
+
+    return {
+      ...store,
+      dispatch
+    }
+  }
+}
+```
