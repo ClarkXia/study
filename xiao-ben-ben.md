@@ -56,5 +56,9 @@ macrotasks: setTimeout ，setInterval， setImmediate，requestAnimationFrame,I/
 microtasks: Promise， process.nextTick， Object.observe， MutationObserver
 
 #### 函数式编程
-
+* 函数是一等共鸣
+* 数据是不可变的（immutable）
+* 纯函数
+* 支持函数递归调用
+* 函数只接收一个参数
 
