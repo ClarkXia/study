@@ -55,3 +55,6 @@ event-loop 执行模型
 macrotasks: setTimeout ，setInterval， setImmediate，requestAnimationFrame,I/O ，UI渲染
 microtasks: Promise， process.nextTick， Object.observe， MutationObserver
 
+#### 函数式编程
+
+
