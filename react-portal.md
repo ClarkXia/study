@@ -1,3 +1,5 @@
+
+
 在设计UI组件的过程中不可避免的需要考虑模态窗的需求，比如dialog，tooltip这些，但是在React的框架下，我们似乎遇到了一些问题
 
 ###React下的modal需求
@@ -15,11 +17,81 @@ render() {
 DOM真正渲染的位置，通过renderLayer来实现
 ```js
 renderLayer() {
-    //这里我们假定render的执行是输出渲染内容，container是DOM需要挂载的节点
-    const { render, container } = this.props;
+    //这里我们假定render的执行是输出渲染内容
+    const { render } = this.props;
+    //构造DOM节点作为渲染内容的容器
+    if (!this.layer) {
+        this.layer = document.createElement('div');
+        document.body.appendChild(this.layer);
+    }
     const layerElement = render();
-    this.layerElement = ReactDOM.unstable_renderSubtreeIntoContainer(this, layerElement, container);
+    this.layerElement = ReactDOM.unstable_renderSubtreeIntoContainer(this, layerElement, this.layer);
+}
+
+unrenderLayer() {
+    if (this.layer) {
+        React.unmountComponentAtNode(this.layer);
+        document.body.removeChild(this.layer);
+        this.layer = null;
+    }
 }
 ```
-React还是
+好了，我们在各个生命周期里面调用它们就行了
 
+ReactDOM中提供了一个unstable_renderSubtreeIntoContainer，从名字上就可以发现，它并不推荐被使用，实际上它也的确表现得令人费解。
+
+```js
+class Test extends React.Component {
+  componentDidMount() {
+    console.log('test');
+    setTimeout(() => this.forceUpdate(),5000)
+  }
+  
+  componentDidUpdate() {
+    console.log('did update test')
+  }
+  
+  render() {
+    return <p>test<A/></p>;
+  }
+}
+
+class B extends React.Component {
+  componentDidMount() {
+    console.log('did mount B')
+  }
+  
+  componentDidUpdate() {
+    console.log('did update B')
+  }
+  
+  render() {
+    return <a>12</a>;
+  }
+}
+
+class A extends React.Component {
+  componentDidMount() {
+    this.renderLayer();
+    console.log('did mount A')
+  }
+  
+  componentDidUpdate() {
+    this.renderLayer();
+    console.log('did update A')
+  }
+  
+  renderLayer() {
+    if (!this.layer) {
+      this.layer = document.createElement('div');
+      document.body.appendChild(this.layer);
+    }
+    ReactDOM.unstable_renderSubtreeIntoContainer(this, <B/>, this.layer);
+  }
+  render() {
+    return null;
+  }
+}
+
+ReactDOM.render(<Test />, document.getElementById('app'));
+```
