@@ -128,13 +128,10 @@ React Portal的出现彻底解决了这方面的问题
 ###React Portal
 终于进入主题，先看看它是如何使用的
 ```js
-constructor() {
-    super(...arguments);
+const node = document.createElement('div');
+document.body.appendChild(this.node);
+...
 
-    const doc = window.document;
-    this.node = doc.createElement('div');
-    doc.body.appendChild(this.node);
-  }
 render() {
     return createPortal(
       <div class="dialog">
@@ -143,4 +140,14 @@ render() {
       node //渲染内容的容器DOM
     );
 }
+```
+除了node节点在一些场景下需要释放之外，你已经不需要在其他生命周期里面擦屁股了
+让我们在回到之前生命周期执行上的问题
+https://codepen.io/anon/pen/Jpjqwg?editors=1111
+结果的执行跟我们正常组件保持了一致，再也不用担心一些依赖子组件完成更新后的监听或操作会出现异常情况了。
+除此之外React Portal还新增了一个事件冒泡的实现
+```js
+<div onClick={handleClick}>
+  <Dialog/>
+</div>
 ```
