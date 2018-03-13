@@ -151,3 +151,6 @@ https://codepen.io/anon/pen/Jpjqwg?editors=1111
   <Dialog/>
 </div>
 ```
+如果在React16之前的实现方式，点击Dialog组件里面的内容handleClick是不会被触发，但通过React Portal实现的挂载方式将会发生冒泡。
+这个特性见仁见智吧，一般情况下感觉也不会用到。
+总之React Portal的实现对于modal的实现是一个重大的更新，同时也避免了组件间生命周期的执行混乱。
