@@ -66,7 +66,7 @@ class B extends React.Component {
   }
   
   render() {
-    return <a>12</a>;
+    return <a>some thing</a>;
   }
 }
 
@@ -94,4 +94,53 @@ class A extends React.Component {
 }
 
 ReactDOM.render(<Test />, document.getElementById('app'));
+```
+https://codepen.io/anon/pen/GQRaEo?editors=1112
+按我们对React父子组件间生命周期的执行情况上理解应当输出
+```js
+"did mount B"
+"did mount A"
+"test"
+"did update B"
+"did update A"
+"did update test"
+```
+而实际的结果却是
+```js
+"did mount B"
+"did mount A"
+"test"
+"did update A"
+"did update test"
+"did update B"
+```
+显然在初始化的时候事情还是符合我们预期的 可是在执行更新组件的时候，生命周期的执行便显得很混乱，在React16的版本中这个问题得到了修复，但执行的结果显然也不是我们最终想要的
+https://codepen.io/anon/pen/MQWdPq?editors=1111
+```js
+"did mount A"
+"test"
+"did mount B"
+"did update A"
+"did update test"
+"did update B"
+```
+React Portal的出现彻底解决了这方面的问题
+###React Portal
+终于进入主题，先看看它是如何使用的
+```js
+constructor() {
+    super(...arguments);
+
+    const doc = window.document;
+    this.node = doc.createElement('div');
+    doc.body.appendChild(this.node);
+  }
+render() {
+    return createPortal(
+      <div class="dialog">
+        {this.props.children}
+      </div>, //需要渲染的内容
+      node //渲染内容的容器DOM
+    );
+}
 ```
