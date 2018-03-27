@@ -23,4 +23,32 @@ P将充当V和M之间的交互，除了实现业务逻辑外，还要控制V和M
 ####MVVM
 MVVM实际上就是把V和M的同步逻辑自动化，去除了MVP中P手动同步的部分。
 下面我们具体看看MVVM的简单实现
+先定个目标，以Vue为例，采用MVVM模式后是这样的
+Model
+```js
+const data = {name: 'name', age: 12};
+```
+View
+```html
+<div id="app">
+    <div>
+        <span>{{name}}</span>
+        <span>{{age}}</span>
+    </div>
+    <button v-on:click="changeName('newName')">change</button>
+</div>
+
+```
+Controller
+```js
+new MVVM({
+    el: '#app',
+    data: data,
+    methonds: {
+        changeName(name) {
+            this.name = name;
+        }
+    }
+});
+```
 
