@@ -12,4 +12,6 @@
 * [Redux填坑](reduxtian-keng.md)
 * [React Context API 新的状态管理方式？](react-context-api-xin-de-zhuang-tai-guan-li-fang-shi-ff1f.md)
 * [React Portal](react-portal.md)
+* [Virtual DOM](virtual-dom.md)
+* [mobx](mobx.md)
 
