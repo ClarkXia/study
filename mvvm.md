@@ -25,6 +25,7 @@ MVP的重大变化就是V与M解耦，可以将V抽离出来。
 P将充当V和M之间的交互，除了实现业务逻辑外，还要控制V和M之间的数据“手动同步”，所以P会成为最难维护的部分
 ####MVVM
 MVVM实际上就是把V和M的同步逻辑自动化，去除了MVP中P手动同步的部分。
+![](/assets/mvvm.png)
 下面我们具体看看MVVM的简单实现
 先定个目标，以Vue为例，采用MVVM模式后是这样的
 Model
@@ -54,6 +55,15 @@ new MVVM({
     }
 });
 ```
+实现上基本可以归结为三步：
+1. Observer：实现数据的监听（数据劫持），可以利用Object.defineProperty()来实现，通过getter和setter的设置，监听数据是否发生变化
+2. Compiler：主要解决解析模版指令的事情，包括模版中变量的数据替换，初始化渲染，对应节点的事件绑定，添加监听数据的订阅者
+3. Watcher：订阅者，关联Observer和Compile，能够订阅并收到属性变化的通知，执行绑定的相应操作，更新视图
+
+####总结
+单单看上面的描述还是很难理解的，下面列举一些源码和参考资料供参考学习
+[MVVM的实现](https://github.com/DMQ/mvvm)
+[前端MVC变形记](http://efe.baidu.com/blog/mvc-deformation/)
 
 
 
