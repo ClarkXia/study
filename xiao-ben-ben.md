@@ -67,6 +67,7 @@ microtasks: Promise， process.nextTick， Object.observe， MutationObserver
 function newOperator(Constr, args) {
     var thisValue = Object.create(Constr.prototype); // (1)
     var result = Constr.apply(thisValue, args);
+    //如果构造函数有返回值且返回值是对象，则直接返回该对象
     if (typeof result === 'object' && result !== null) {
         return result; // (2)
     }
