@@ -45,6 +45,12 @@ item.type === Node //true
 item.type === Node //false 
 ```
 
-
-
-
+#### 相关生态更新
+* react-hot-loader 4.0.0
+```js
+//react-hot-loader的实现将更贴近函数式
+import { hot } from 'react-hot-loader';
+const App = () => <MainEntry />;
+export default hot(module)(App);
+```
+解决之前版本SFC函数无法热更新的问题
