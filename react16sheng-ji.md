@@ -54,3 +54,7 @@ const App = () => <MainEntry />;
 export default hot(module)(App);
 ```
 解决之前版本SFC函数无法热更新的问题
+
+####总结
+相关来说从React15.x升级到React16.2并没有太大的挑战，而在React16.3之后的版本将迎来更多变化，以及周围生态的更新，包括新生命周期函数及New Context API，每一个的变化都不可掉以轻心。
+
