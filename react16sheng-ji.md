@@ -23,6 +23,7 @@ React16将停止对React Addons的维护和支持，具体可以参照[discontin
 
 ##### 注意的问题
 * React16依赖于es6的Map和Set，引入bable-polyfill或抽离单独的pollyfill（注意需要先于react进行加载）
+* 不再支持ES5创建组件写法，引入create-react-class可以进行兼容，建议全面拥抱ES6
 * React.PropTypes废弃
 ```js
 import React, {PropTypes} from 'react';
@@ -33,6 +34,16 @@ import PropTypes from 'prop-types';
 * ReactDOM.render() 和 React.unstable_renderSubtreeIntoContainer()
 这两个方法在生命周期方法中执行是将会返回null，要解决这个问题，可以借助[protals](https://reactjs.org/docs/portals.html)或[refs](https://reactjs.org/docs/refs-and-the-dom.html)
 * componentDidUpdate声明周期方法不再接受prevContext参数
+* 其他细节
+> setState 的回调（第二个参数）现在会在 componentDidMount/componentDidUpdate之后立即启动，而不是在所有组件都渲染完成之后
+> 组件实例化后的type属性将不再指向组件
+
+```js
+//item为Node组件的实例
+item.type === Node //true
+//React16之后
+item.type === Node //false 
+```
 
 
 
