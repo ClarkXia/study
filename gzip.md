@@ -6,6 +6,14 @@
 
 [RFC1952](https://tools.ietf.org/html/rfc1952) 这个规范主要定义了GZip压缩在数据格式方面的规范，感兴趣的可以直接阅读RFC1952原文。
 
+### 压缩算法Deflate
+
+https://blog.csdn.net/imquestion/article/details/16439
+
+#### LZ77
+
+#### Huffman  Coding
+
 ### gzip工作原理
 
 ![](/assets/gzip.png)
@@ -13,6 +21,12 @@
 1. 浏览器请求资源，并在request header里设置accept-encoding: gzip
 2. 服务器收到浏览器发送的请求，根据header里面的属性判断是否支持gzip，如果支持，则向浏览器传送压缩过的内容，不支持则发送原始内容。一般浏览器和服务器都支持gzip的话，response headers返回将包含content-encoding: zip
 3. 浏览器接收到响应之后，判断是否是压缩内容，如果被压缩则先解压
+
+### 如何使用GZip
+
+#### Nginx中开启
+
+#### 如何检测
 
 
 
