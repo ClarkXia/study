@@ -8,11 +8,13 @@
 
 ### 压缩算法Deflate
 
-https://blog.csdn.net/imquestion/article/details/16439
+[https://blog.csdn.net/imquestion/article/details/16439](https://blog.csdn.net/imquestion/article/details/16439)
 
 #### LZ77
 
 #### Huffman  Coding
+
+对图片压缩效果差
 
 ### gzip工作原理
 
