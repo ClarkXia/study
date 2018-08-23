@@ -5,5 +5,13 @@
 
 
 
+https://zhuanlan.zhihu.com/p/31704920
 
+http://cn.mobx.js.org/
+
+https://qiutc.me/post/mobx-core.html
+
+http://blog.fedeoo.cn/2017/03/30/%E6%8E%A2%E7%A7%98-MobX/
+
+https://github.com/sorrycc/blog/issues/3
 
