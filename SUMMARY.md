@@ -21,4 +21,5 @@
 * [GZip](gzip.md)
 * [正则表达式回溯](zheng-ze-biao-da-shi-hui-su.md)
 * [前端微应用](qian-duan-wei-ying-yong.md)
+* [Tree shaking](tree-shaking.md)
 
